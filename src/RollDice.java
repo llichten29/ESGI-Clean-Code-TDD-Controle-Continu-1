@@ -9,17 +9,17 @@ public class RollDice {
     public static final int YAMS_POINT = 40;
 
     public static boolean isLargeSuite(List<Integer> dices){
-        Set<Integer> unique = new TreeSet<>(dices);
-        return unique.equals(new TreeSet<>(Arrays.asList(1,2,3,4,5)))
-                || unique.equals(new TreeSet<>(Arrays.asList(2,3,4,5,6)));
+        Set<Integer> diceUnique = new TreeSet<>(dices);
+        return diceUnique.equals(new TreeSet<>(Arrays.asList(1,2,3,4,5)))
+                || diceUnique.equals(new TreeSet<>(Arrays.asList(2,3,4,5,6)));
     }
 
 
-    public static int throwDice(List<List<Integer>> dices){
+    public static int throwDice(List<List<Integer>> dicesRolls){
         int result = 0;
-        for (List<Integer> dicesRoll : dices){
+        for (List<Integer> dices : dicesRolls){
             Map<Integer,Integer> countMap = new HashMap<>();
-            for (Integer dice : dicesRoll){
+            for (Integer dice : dices){
                 countMap.put(dice, countMap.getOrDefault(dice, 0) + 1);
             }
             if(countMap.containsValue(3)){
@@ -36,11 +36,11 @@ public class RollDice {
             else if(countMap.containsValue(5)){
                 result+=YAMS_POINT;
             }
-            else if (isLargeSuite(dicesRoll)){
+            else if (isLargeSuite(dices)){
                 result+=LARGE_SUITE_POINT;
             }
             else{
-                result+=dicesRoll.stream().reduce(0,Integer::sum);
+                result+=dices.stream().reduce(0,Integer::sum);
             }
         }
 
